@@ -86,7 +86,7 @@ class ViewController: UIViewController, VNDocumentCameraViewControllerDelegate {
     }
 
     @objc func changeLayout() {
-        collectionView.setCollectionViewLayout(createBasicLayout(), animated: true)
+        collectionView.setCollectionViewLayout(createCompositionalLayout(), animated: true)
     }
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
@@ -157,5 +157,11 @@ class ViewController: UIViewController, VNDocumentCameraViewControllerDelegate {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let spacing: CGFloat = 5.0
         item.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.5))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
